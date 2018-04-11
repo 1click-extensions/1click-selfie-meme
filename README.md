@@ -1,1 +1,1 @@
-# 1click-capture-webcam-as-png
+# 1click-selfie-meme
