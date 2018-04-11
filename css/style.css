@@ -1,0 +1,42 @@
+.main{
+    text-align: center;
+    padding-top: 20px;
+}
+#proccesing{
+    display: none;
+    padding: 10px;
+    color: red;
+    font-size: 14px;
+
+}
+#proccesing.visible{
+    display: block;
+}
+.video-wrp-inner{
+    position: relative;
+    display: inline-block;
+    margin: 0 auto;
+}
+.text-example-wrp{
+    background: url('/images/cursor.png') left center no-repeat;
+    display: inline-block;
+    padding-left: 40px;
+    position: absolute;
+    bottom:10px; 
+    left:10px;
+    max-height: 28px;
+}
+.text-example-wrp input{
+    background: transparent;
+    border:0;
+    color:#fff;
+    font-size: 26px;
+    width: 250px;
+}
+.text-example-wrp input:hover{
+    border: 1px solid #000;
+    outline: 1px solid #fff;
+}
+canvas{
+    display: none;
+}
