@@ -50,48 +50,55 @@ if (navigator.webkitGetUserMedia!=null) {
 } 
  captureButton.addEventListener('click', () => {
     // Draw the video frame to the canvas.
+    var coordinates = jQuery('.text-example-wrp').position();
     context.drawImage(player, 0, 0, canvas.width, canvas.height);
+    context.textBaseline  = "top";
+    context.font = "26px Calibri";
+    context.textAlign  = "left";
+    context.fillStyle = '#fff';
+
+    context.fillText(textExampleInput.value,coordinates.left + 20 ,coordinates.top);
     dataUrl = canvas.toDataURL(),
     imageFoo = document.createElement('img');
     imageFoo.src = dataUrl;
-     var coordinates = jQuery('.text-example-wrp').position(),
-      values = {
-          images:[imageFoo],
-          text : textExampleInput.value,
-          textXCoordinate : coordinates.left + 20,
-          textYCoordinate :coordinates.top,
-          textAlign:'left',
-          fontSize:'26px',
-          textBaseline:'top',
-          gifWidth:$(vid).width(),
-          gifHeight:$(vid).height(),
-          // : document.getElementById('seconds').value * 10
-      };
-  console.log('values',values, coordinates);
-    gifshot.createGIF(values, function(obj) {
-      //  document.getElementById('proccesing').classList.remove('visible');
-      if(!obj.error) {
-        //console.log(obj);
-        var image = obj.image,
-            imgBlob = b64toBlob(image.split(',')[1],'image/gif');
-        imgExample.src = image;
-        url = URL.createObjectURL(imgBlob);
+   
+      // values = {
+      //     images:[imageFoo],
+      //     text : textExampleInput.value,
+      //     textXCoordinate : coordinates.left + 20,
+      //     textYCoordinate :coordinates.top,
+      //     textAlign:'left',
+      //     fontSize:'26px',
+      //     textBaseline:'top',
+      //     gifWidth:$(vid).width(),
+      //     gifHeight:$(vid).height(),
+      //     // : document.getElementById('seconds').value * 10
+      // };
+  // console.log('values',values, coordinates);
+  //   gifshot.createGIF(values, function(obj) {
+  //     //  document.getElementById('proccesing').classList.remove('visible');
+  //     if(!obj.error) {
+  //       //console.log(obj);
+  //       var image = obj.image,
+  //           imgBlob = b64toBlob(image.split(',')[1],'image/gif');
+  //       imgExample.src = image;
+  //       url = URL.createObjectURL(imgBlob);
+  //       chrome.downloads.download({
+  //         url: url 
+  //       });
+  //       // animatedImage = document.createElement('img');
+  //       // animatedImage.src = image;
+  //       // document.body.appendChild(animatedImage);
+  //     }
+  //   });
+    // context.drawImage(player, 0, 0, canvas.width, canvas.height);
+    canvas.toBlob(function(blob){
+            url = URL.createObjectURL(blob);
         chrome.downloads.download({
           url: url 
         });
-        // animatedImage = document.createElement('img');
-        // animatedImage.src = image;
-        // document.body.appendChild(animatedImage);
-      }
-    });
-    // context.drawImage(player, 0, 0, canvas.width, canvas.height);
-    // canvas.toBlob(function(blob){
-    //         url = URL.createObjectURL(blob);
-    //     chrome.downloads.download({
-    //       url: url 
-    //     });
 
-    // },'image/png');
+     },'image/png');
 
   });
 
