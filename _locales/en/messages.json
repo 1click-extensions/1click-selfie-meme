@@ -1,4 +1,6 @@
 {
+  	"h2_title": {"message": "Create meme with your picture" },
+  	"capture_button_text": {"message": "Create meme" },
   	"browser_action": {"message": "Make selfy meme" },
   	"ext_desc": {"message": "Create meme of you using webcam in one click" },
   	"ext_name": {"message": "1click selfy meme" }

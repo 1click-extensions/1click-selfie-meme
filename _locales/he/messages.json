@@ -1,4 +1,6 @@
 {
+	"h2_title": {"message": "צור מם מהתמונה שלך" },
+	"capture_button_text": {"message": "צור מם" },
 	"browser_action": {"message": "יצר מם ממצלמת רשת" },
 	"ext_desc": {"message": "יצר מם  ממצחמת רשת בלחיצת כפתור" },
 	"ext_name": {"message": "מם-סלפי בלחיצת כפתור" }

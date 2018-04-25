@@ -3,24 +3,27 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Capture</title>
+        <title>Create meme</title>
 		<link href="/lib/jquery-ui.min.css" rel="stylesheet" type="text/css">
 		<link href="/css/style.css" rel="stylesheet" type="text/css">
 
     </head>
     <body>
 		<div class="main">
+				<h2 id="h2"></h2>
+				<div id="error"></div>
 			<div class="video-wrp">
 				<div class="video-wrp-inner">
-					<video id="vid" height="240" width="360" muted="muted" autoplay></video>
-					<div class="text-example-wrp"><input type="text" id="text-example" value="Exmple text"/></div>
+					<!--<video id="vid" height="240" width="360" muted="muted" autoplay></video>-->
+					<div class="text-example-wrp"><span class="handle"></span><input type="text" id="text-example" value="Exmple text"/></div>
 				</div>
 			</div>
-			<button type="button" id="capture">Save</button>
+			<button type="button" id="capture" class="btn">Save</button>
 			<canvas id="canvas" height="240"  width="360"></canvas>
 			<img id="example" />
 	        <script src="/lib/jquery.js"></script>
 	        <script src="/lib/jquery-ui.min.js"></script>
+	        <script src="/lib/gumhelper.js"></script>
 	        <script src="/lib/gifshot.js"></script>
 	        <script src="/js/selfy-meme.js"></script>
 	    </div>

@@ -24,86 +24,79 @@ function b64toBlob(b64Data, contentType, sliceSize) {
 
 localstream = null;
 captureButton = document.getElementById('capture');
-player = document.getElementById('vid');
+player = null;
 textExampleInput = document.getElementById('text-example');
 imgExample = document.getElementById('example');
-
-
+h2 = document.getElementById('h2');
+h2.innerText = chrome.i18n.getMessage("h2_title");
+document.getElementsByTagName('title').innerText = chrome.i18n.getMessage("h2_title");
+document.getElementById('capture').innerText = chrome.i18n.getMessage("capture_button_text");
 var canvas = document.getElementById('canvas'),
   context = canvas.getContext('2d');
-if (navigator.webkitGetUserMedia!=null) {
 
-    var options = { 
-        video:true, 
-        audio:false 
-    };  
-    navigator.webkitGetUserMedia(options, 
-        function(stream) { 
-            vid.src = window.webkitURL.createObjectURL(stream);
-            localstream = stream;
-            vid.play();
-            //console.log("streaming");
-        }, 
-        function(e) { 
-        console.log("background error : " + e);
-        }); 
-} 
+GumHelper.startVideoStreaming(function callback(err, stream, videoElement, width, height) {
+  if(err) {
+    errorDiv = document.getElementById('error');
+    errorDiv.classList.add('visible');
+  } else {
+     
+      player = videoElement;
+      videoElement.id = 'vid';
+      jQuery('.video-wrp-inner').prepend(videoElement);
+      jQuery('.text-example-wrp').width(player.videoWidth - 60 )
+      setTimeout(function(){
+        console.log(jQuery('.video-wrp-inner').width(), jQuery('.video-wrp-inner').height());
+        jQuery('.text-example-wrp').draggable({
+          containment:'.video-wrp-inner'
+        });
+
+      },40);
+      // (or you could just keep a reference and use it later)
+  }
+}, { timeout: 20000 });
  captureButton.addEventListener('click', () => {
+   //console.log(player);
     // Draw the video frame to the canvas.
     var coordinates = jQuery('.text-example-wrp').position();
-    context.drawImage(player, 0, 0, canvas.width, canvas.height);
+    canvas.width = player.videoWidth;
+    canvas.height = player.videoHeight;
+    context.drawImage(player, 0, 0, player.videoWidth, player.videoHeight);
     context.textBaseline  = "top";
-    context.font = "26px Calibri";
+    context.font = "32px Calibri";
     context.textAlign  = "left";
     context.fillStyle = '#fff';
 
-    context.fillText(textExampleInput.value,coordinates.left + 20 ,coordinates.top);
+    context.fillText(textExampleInput.value,coordinates.left + 32 ,coordinates.top);
     dataUrl = canvas.toDataURL(),
     imageFoo = document.createElement('img');
     imageFoo.src = dataUrl;
    
-      // values = {
-      //     images:[imageFoo],
-      //     text : textExampleInput.value,
-      //     textXCoordinate : coordinates.left + 20,
-      //     textYCoordinate :coordinates.top,
-      //     textAlign:'left',
-      //     fontSize:'26px',
-      //     textBaseline:'top',
-      //     gifWidth:$(vid).width(),
-      //     gifHeight:$(vid).height(),
-      //     // : document.getElementById('seconds').value * 10
-      // };
-  // console.log('values',values, coordinates);
-  //   gifshot.createGIF(values, function(obj) {
-  //     //  document.getElementById('proccesing').classList.remove('visible');
-  //     if(!obj.error) {
-  //       //console.log(obj);
-  //       var image = obj.image,
-  //           imgBlob = b64toBlob(image.split(',')[1],'image/gif');
-  //       imgExample.src = image;
-  //       url = URL.createObjectURL(imgBlob);
-  //       chrome.downloads.download({
-  //         url: url 
-  //       });
-  //       // animatedImage = document.createElement('img');
-  //       // animatedImage.src = image;
-  //       // document.body.appendChild(animatedImage);
-  //     }
-  //   });
-    // context.drawImage(player, 0, 0, canvas.width, canvas.height);
+   
     canvas.toBlob(function(blob){
             url = URL.createObjectURL(blob);
         chrome.downloads.download({
-          url: url 
+          url: url ,
+          filename : getfilenameByExtention('png')
         });
 
      },'image/png');
 
   });
 
-  jQuery('.text-example-wrp').draggable({
-    containment:'.video-wrp-inner'
-  });
+
   $(function(){
   })
+
+
+  function getfilenameByExtention(ext){
+    var now = new Date(),
+        month = now.getMonth() + 1,
+        day = now.getDate(),
+        year = now.getFullYear(),
+        seconds = now.getSeconds(),
+        minutes = now.getMinutes(),
+        hour = now.getHours(),
+        filename = chrome.runtime.getManifest().name + '--' + [day,month,year].join('-') + '--' +[hour,minutes,seconds].join('-');
+        filename = filename.replace(/(\s|\t)+/g,'-').toLocaleLowerCase() + '.' + ext;
+    return filename;
+  }
