@@ -22,6 +22,15 @@ function b64toBlob(b64Data, contentType, sliceSize) {
   return blob;
 }
 
+function saveBase64AsFile(base64, fileName) {
+
+  var link = document.createElement("a");
+
+  link.setAttribute("href", base64);
+  link.setAttribute("download", fileName);
+  link.click();
+}
+
 localstream = null;
 captureButton = document.getElementById('capture');
 player = null;
@@ -45,7 +54,7 @@ GumHelper.startVideoStreaming(function callback(err, stream, videoElement, width
       jQuery('.video-wrp-inner').prepend(videoElement);
       jQuery('.text-example-wrp').width(player.videoWidth - 60 )
       setTimeout(function(){
-        console.log(jQuery('.video-wrp-inner').width(), jQuery('.video-wrp-inner').height());
+        //console.log(jQuery('.video-wrp-inner').width(), jQuery('.video-wrp-inner').height());
         jQuery('.text-example-wrp').draggable({
           containment:'.video-wrp-inner'
         });
@@ -74,10 +83,7 @@ GumHelper.startVideoStreaming(function callback(err, stream, videoElement, width
    
     canvas.toBlob(function(blob){
             url = URL.createObjectURL(blob);
-        chrome.downloads.download({
-          url: url ,
-          filename : getfilenameByExtention('png')
-        });
+          saveBase64AsFile(url, getfilenameByExtention('png'));
 
      },'image/png');
 
