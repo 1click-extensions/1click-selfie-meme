@@ -84,7 +84,7 @@ GumHelper.startVideoStreaming(function callback(err, stream, videoElement, width
     canvas.toBlob(function(blob){
             url = URL.createObjectURL(blob);
           saveBase64AsFile(url, getfilenameByExtention('png'));
-
+          setTimeout(checkIfRankNeededAndAndAddRank,3000);
      },'image/png');
 
   });
